@@ -17,3 +17,5 @@ echo "example.com" > list
 
 ./Do7h3R3c0n list 
 ```
+## output example
+![Screenshot_179](https://github.com/kiro6/Do7h3R3c0n/assets/57776872/201c44bb-936e-43f0-ac87-7bf9e91b2846)

@@ -100,7 +100,7 @@ echo -e "${BLUE}[!]start gau${NC}"
 while IFS= read -r sub; do
     mkdir "$sub" 2>/dev/null
     cd $sub
-    gau $sub --providers wayback --fc 404 --o ${gauUrls} ## >/dev/null 2>/dev/null  ## you can add   ,commoncrawl,otx,urlscan
+    gau $sub --providers wayback --fc 404 --o ${gauUrls} >/dev/null 2>/dev/null  ## you can add   ,commoncrawl,otx,urlscan
 
     # Check if the file contains URLs with "pass" paramter for potential passwords
     if grep -q -E '[?&]pass' ${gauUrls}; then
@@ -114,9 +114,9 @@ while IFS= read -r sub; do
         echo -e "${YELLOW}[*]Potential usernames found and saved to ${potentialUsernames} in $sub ${NC}"
     fi
 
-    if grep -q -E '[?&]\b(token|session|sso)\b' ${gauUrls}; then
+    if grep -q -E '[?&]\b(token|session|sso|api|key|uid|id)\b' ${gauUrls}; then
         grep -E '[?&]\b(token|session|sso)\b' ${gauUrls} >${potentialTokens}
-        echo -e "${YELLOW}[*]Potential tokens found and saved to ${potentialTokens} in $sub ${NC}"
+        echo -e "${YELLOW}[*]Potential tokens or ApiKeys found and saved to ${potentialTokens} in $sub ${NC}"
     fi
 
     cd ..
@@ -155,7 +155,8 @@ while IFS= read -r sub; do
         fi
     fi
     cd ..
-done <${aliveSubDomains}
+done < ${aliveSubDomains}
+
 
 echo -e "${GREEN}[*]done jsfinder and mantra${NC}"
 
@@ -173,4 +174,5 @@ while IFS= read -r sub; do
 done <${aliveSubDomains}
 
 echo -e "${GREEN}[*] done collect paramters from gau and Katana${NC}"
+
 

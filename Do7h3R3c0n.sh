@@ -46,7 +46,7 @@ echo -e "${BLUE}***********************************${NC}"
 # start subfinder
 echo -e "${BLUE}[!]start subfinder${NC}"
 
-subfinder -dL "$filepath" -es github,censys,shodan,virustotal -silent -recursive -o ${subfinderDomains} >/dev/null
+subfinder -dL "$filepath"  -silent -recursive -o ${subfinderDomains} >/dev/null
 
 wc -l ${subfinderDomains} | awk "{print \"${GREEN}[*] \" \$1 \" subdomain was discovered by subfinder!${NC}\"}"
 

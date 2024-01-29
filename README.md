@@ -10,3 +10,10 @@ Recon framework and methdolgy using go lang tools
 6) crawl every subdomain using katana
 7) search for js files for every url in every subdomain , and look for secrets leaked using mantra
 8) collect parameters from katana and gau output 
+
+## usage 
+```bash
+echo "example.com" > list
+
+./Do7h3R3c0n list 
+```

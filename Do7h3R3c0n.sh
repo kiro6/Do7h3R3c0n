@@ -74,8 +74,9 @@ wc -l ${allSubDomains} | awk "{print \"${GREEN}[*] \" \$1 \" subdomain was disco
 # start httpx
 echo -e "${BLUE}[!]start httpx${NC}"
 
-httpx -l ${allSubDomains} -silent -timeout 3 -o ${aliveSubDomainsUrls} >/dev/null
 httpx -l ${allSubDomains} -silent -timeout 3 -title -status-code -o ${aliveSubDomainsUrlsDetailed} >/dev/null
+
+awk '{print $1}' ${aliveSubDomainsUrlsDetailed}  > ${aliveSubDomainsUrls} 
 
 # check for potential usernames or passwords
 if grep -q '@' ${aliveSubDomainsUrls}; then

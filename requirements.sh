@@ -3,7 +3,7 @@ go install github.com/projectdiscovery/katana/cmd/katana@latest
 
 go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
-go get -u github.com/tomnomnom/assetfinder
+go install github.com/tomnomnom/assetfinder@latest
 
 go install -v github.com/kacakb/jsfinder@latest
 

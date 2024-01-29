@@ -46,7 +46,7 @@ echo -e "${BLUE}***********************************${NC}"
 # start subfinder
 echo -e "${BLUE}[!]start subfinder${NC}"
 
-subfinder -dL "$filepath" -silent -recursive -o ${subfinderDomains} >/dev/null
+subfinder -dL "$filepath" -es github,censys,shodan,virustotal -silent -recursive -o ${subfinderDomains} >/dev/null
 
 wc -l ${subfinderDomains} | awk "{print \"${GREEN}[*] \" \$1 \" subdomain was discovered by subfinder!${NC}\"}"
 
@@ -100,7 +100,7 @@ echo -e "${BLUE}[!]start gau${NC}"
 while IFS= read -r sub; do
     mkdir "$sub" 2>/dev/null
     cd $sub
-    gau $sub --providers wayback --fc 404 --o ${gauUrls} >/dev/null 2>/dev/null ## you can add   ,commoncrawl,otx,urlscan
+    gau $sub --providers wayback --fc 404 --o ${gauUrls} ## >/dev/null 2>/dev/null  ## you can add   ,commoncrawl,otx,urlscan
 
     # Check if the file contains URLs with "pass" paramter for potential passwords
     if grep -q -E '[?&]pass' ${gauUrls}; then
@@ -120,7 +120,7 @@ while IFS= read -r sub; do
     fi
 
     cd ..
-done <${aliveSubDomains}
+done < ${aliveSubDomains}
 
 echo -e "${GREEN}[*]done gau${NC}"
 
@@ -159,11 +159,18 @@ done <${aliveSubDomains}
 
 echo -e "${GREEN}[*]done jsfinder and mantra${NC}"
 
-
 echo -e "${BLUE}****************************${NC}"
 echo -e "${BLUE}**** Paramter Discovery ****${NC}"
 echo -e "${BLUE}****************************${NC}"
 
-echo -e "${GREEN}[!]collect paramters from gau and Katana${NC}"
-cat ${gauUrls} ${katanaUrls} | grep -oP '[?&]\K\w+(?==|$)'  > ${params}
-wc -l ${params} | awk "{print \"${GREEN}[*] \" \$1 \" parameter was discovered in total!${NC}\"}"
+
+echo -e "${BLUE}[!]collect paramters from gau and Katana${NC}"
+
+while IFS= read -r sub; do
+    cd $sub >/dev/null 2>/dev/null   
+    cat ${gauUrls} ${katanaUrls} | grep -oP '[?&]\K\w+(?==|$)' >${params}
+    cd ..
+done <${aliveSubDomains}
+
+echo -e "${GREEN}[*] done collect paramters from gau and Katana${NC}"
+

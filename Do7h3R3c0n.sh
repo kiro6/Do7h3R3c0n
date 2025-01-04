@@ -51,7 +51,7 @@ discover_subdomains() {
 
     # Start subfinder
     echo -e "${BLUE}[!]start subfinder${NC}"
-    subfinder -dL "$filepath" -s all -silent -recursive -o ${subfinderDomains} >/dev/null
+    subfinder -dL "$filepath" -all -silent -recursive -o ${subfinderDomains} >/dev/null
     wc -l ${subfinderDomains} | awk "{print \"${GREEN}[*] \" \$1 \" subdomain(s) discovered by subfinder!${NC}\"}"
 
     # Start assetfinder
@@ -74,7 +74,7 @@ discover_subdomains() {
 # Check alive subdomains
 check_alive_subdomains() {
     echo -e "${BLUE}[!]start httpx${NC}"
-    httpx -l ${allSubDomains} -silent -timeout 3 -title -status-code -o ${aliveSubDomainsUrlsDetailed} >/dev/null
+    httpx-go -l ${allSubDomains} -silent -timeout 3 -title -status-code -o ${aliveSubDomainsUrlsDetailed} >/dev/null
     awk '{print $1}' ${aliveSubDomainsUrlsDetailed} >${aliveSubDomainsUrls}
 
     # Extract potential usernames or passwords
@@ -161,4 +161,6 @@ discover_subdomains
 check_alive_subdomains
 discover_urls_and_js
 discover_parameters
+
+
 
